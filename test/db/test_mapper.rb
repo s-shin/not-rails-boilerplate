@@ -1,11 +1,18 @@
 module DB
   class TestMapper < Test::Unit::TestCase
-    class User < DB::Model
-      self.column_names = [:id, :name]
+    class Base < Hashie::Dash
+      extend DB::Table
     end
 
-    class Friend < DB::Model
-      self.column_names = [:id, :user_id, :friend_user_id]
+    class User < Base
+      property :id
+      property :name
+    end
+
+    class Friend < Base
+      property :id
+      property :user_id
+      property :friend_user_id
     end
 
     class << self

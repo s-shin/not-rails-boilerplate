@@ -41,5 +41,5 @@ test/ # directory structure corresponds to lib
 * Document: `yard`
 * Debug: `pry-byebug`
 * Console: `pry`
-* Misc: `activesupport`
+* Misc: `activesupport`, `hashie`
 * Deploy: `capistrano`

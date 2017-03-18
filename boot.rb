@@ -7,3 +7,5 @@ Bundler.require(*[:default, ENV['RACK_ENV']].compact)
 require 'active_support'
 require 'active_support/core_ext'
 ActiveSupport::Dependencies.autoload_paths << File.expand_path('./lib', __dir__)
+
+PROJECT_ROOT = __dir__
