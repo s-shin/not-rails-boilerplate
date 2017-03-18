@@ -13,7 +13,6 @@ end
 
 desc 'Run console.'
 task :console do
-  ENV['RACK_ENV'] ||= 'development'
   pry
 end
 
