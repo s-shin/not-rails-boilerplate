@@ -12,8 +12,6 @@ module DB
       end
     end
 
-    extend Forwardable
-
     attr_reader :data
 
     def initialize(data)
