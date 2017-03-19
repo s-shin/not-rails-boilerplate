@@ -5,10 +5,5 @@ module DB
     def table_name
       @table_name ||= name.split('::').last.tableize.to_sym
     end
-
-    def column_names
-      return @column_names ||= properties if respond_to?(:properties)
-      raise NotImplementedError
-    end
   end
 end

@@ -10,17 +10,21 @@ module DB
       self.new(db)
     end
 
-    def select(model_class, &block)
-      ctx = Context.new(db, model_class)
+    def select(table_class, &block)
+      ctx = Context.new(db, table_class)
       ctx.instance_eval(&block) if block
       ctx
     end
 
+    def insert(table_instance)
+      @db[table_instance.class.table_name].insert(table_instance)
+    end
+
     class Context
-      def initialize(db, model_class)
+      def initialize(db, table_class)
         @db = db
-        @ds = db[model_class.table_name].select(*model_class.column_names)
-        @model_class = model_class
+        @ds = db[table_class.table_name].select(*table_class.column_names)
+        @table_class = table_class
       end
 
       def sql
@@ -34,11 +38,11 @@ module DB
       end
 
       def first
-        @model_class.new(@ds.first)
+        @table_class.new(@ds.first)
       end
 
       def all
-        @ds.all.map { |a| @model_class.new(a) }
+        @ds.all.map { |a| @table_class.new(a) }
       end
     end
   end

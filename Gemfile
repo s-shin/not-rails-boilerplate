@@ -2,6 +2,11 @@ source 'https://rubygems.org'
 
 gem 'rake', require: ['rake', 'rake/testtask']
 
+gem 'rack'
+
+gem 'grape'
+# gem 'sinatra'
+
 gem 'activesupport'
 gem 'hashie'
 

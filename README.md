@@ -22,8 +22,11 @@ config/
     deploy/xxx.rb
 
 lib/
-    app/ # all application codes in this
-    xxx.rb # isolated/reusable codes is placed outside app directory
+    # all application codes in app directory
+    app/
+
+    # isolated and reusable codes is placed outside app directory
+    xxx/yyy.rb
 
 test/ # directory structure corresponds to lib
     app/

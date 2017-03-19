@@ -1,8 +1,10 @@
 module App
   module Models
-    class User < Base
+    class Message < Base
       property :id
       property :name
+      property :title
+      property :body
     end
   end
 end

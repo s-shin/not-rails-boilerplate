@@ -2,6 +2,9 @@ module DB
   class TestMapper < Test::Unit::TestCase
     class Base < Hashie::Dash
       extend DB::Table
+      def self.column_names
+        properties
+      end
     end
 
     class User < Base
