@@ -1,6 +1,24 @@
 ---
-development_w:
-development_r:
+development: &development
+  adapter: sqlite
+  host: tmp/development.sqlite3
+  database: app
 
-test:
+development_w:
+  <<: *development
+
+development_r:
+  <<: *development
+
+test: &test
+  adapter: sqlite
+  host: tmp/test.sqlite3
+  database: app
+
+test_w:
+  <<: *test
+
+test_r:
+  <<: *test
+
 production:
