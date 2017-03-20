@@ -1,8 +1,14 @@
 ---
+default: &default
+  adapter: mysql2
+  host: localhost
+  username: root
+  password:
+  encoding: utf8mb4
+
 development: &development
-  adapter: sqlite
-  host: tmp/development.sqlite3
-  database: app
+  <<: *default
+  database: myapp_development
 
 development_w:
   <<: *development
@@ -11,9 +17,8 @@ development_r:
   <<: *development
 
 test: &test
-  adapter: sqlite
-  host: tmp/test.sqlite3
-  database: app
+  <<: *default
+  database: myapp_test
 
 test_w:
   <<: *test

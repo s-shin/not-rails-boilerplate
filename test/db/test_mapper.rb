@@ -20,10 +20,11 @@ module DB
 
     class << self
       def db
-        @db ||= Sequel.sqlite
+        App::Context.instance.db_w
       end
 
       def startup
+        db.run('DROP TABLE IF EXISTS users, friends')
         db.create_table :users do
           primary_key :id
           String :name
@@ -38,11 +39,6 @@ module DB
         fizz_id = db[:users].insert(name: 'fizz')
         db[:friends].insert(user_id: foo_id, friend_user_id: bar_id)
         db[:friends].insert(user_id: foo_id, friend_user_id: fizz_id)
-      end
-
-      def shutdown
-        @db.disconnect
-        @db = nil
       end
     end
 

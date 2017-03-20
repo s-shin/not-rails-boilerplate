@@ -1,0 +1,5 @@
+create_table "messages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  t.string "name",  limit: 63,    default: "", null: false
+  t.string "title", limit: 255,   default: "", null: false
+  t.text   "body",  limit: 65535,              null: false
+end

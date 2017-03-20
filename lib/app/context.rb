@@ -55,7 +55,9 @@ module App
     def db(name)
       @db ||= {}
       target = "#{env}_#{name}".to_sym
-      @db[target] ||= Sequel.connect(config(:database)[target])
+      conf = config(:database)[target]
+      conf = conf.merge(adapter: 'sqlite') if conf[:adapter] == 'sqlite3'
+      @db[target] ||= Sequel.connect(conf)
     end
 
     def db_w
@@ -66,12 +68,12 @@ module App
       db(:r)
     end
 
-    set_callback :request, :after do
-      if @db
-        @db.each(&:disconnect)
-        @db = nil
-      end
+    def disconnect_all_db_connections!
+      @db&.each(&:disconnect)
+      @db = nil
     end
+
+    set_callback :request, :after, :disconnect_all_db_connections!
 
     # @param name [Symbol, String] Config name w/o extension.
     def config(name)

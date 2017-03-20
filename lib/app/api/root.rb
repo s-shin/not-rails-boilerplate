@@ -8,16 +8,16 @@ module App
       prefix :api
 
       resource :messages do
-        desc 'Create a message.'
+        desc 'Get all messages.'
         get do
           DB::Mapper.use(db_r).select(Models::Message)
         end
-      end
 
-      resource :messages do
-        desc 'Create a message.'
+        desc 'Post a message.'
         params do
-          # TODO
+          requires :name, type: String
+          requires :title, type: String
+          requires :body, type: String
         end
         post do
           msg = Models::Message.new(params)
