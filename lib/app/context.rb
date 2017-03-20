@@ -3,12 +3,13 @@ module App
     class RackMiddleware
       include ActiveSupport::Callbacks
 
-      def initialize(app)
+      def initialize(app, ctx)
         @app = app
+        @ctx = ctx
       end
 
       def call(env)
-        Context.instance.run_callbacks :request do
+        ctx.run_callbacks :request do
           @app.call(env)
         end
       end
@@ -18,9 +19,26 @@ module App
     define_callbacks :request
 
     class << self
-      def instance(new_instance = nil)
-        @context = new_instance if new_instance
-        @context ||= new
+      attr_writer :instance
+      def instance
+        @instance ||= new
+      end
+    end
+
+    # @param cls [Class]
+    def inject(cls, *props, **aliased_props)
+      props.each { |prop| aliased_props[prop] = prop }
+      cls.class_eval do
+        aliased_props.each do |ctx_prop, cls_prop|
+          define_method cls_prop do
+            @injected ||= {}
+            @injected[ctx_prop] || Context.instance.send(ctx_prop)
+          end
+          define_method :"#{cls_prop}=" do |v|
+            @injected ||= {}
+            @injected[ctx_prop] = v
+          end
+        end
       end
     end
 
@@ -33,10 +51,19 @@ module App
     end
 
     # @param name [Symbol, String] Database target name.
+    # @return [Sequel::Database]
     def db(name)
       @db ||= {}
       target = "#{env}_#{name}".to_sym
       @db[target] ||= Sequel.connect(config(:database)[target])
+    end
+
+    def db_w
+      db(:w)
+    end
+
+    def db_r
+      db(:r)
     end
 
     set_callback :request, :after do

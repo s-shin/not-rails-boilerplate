@@ -10,9 +10,5 @@ module App
     test 'project_root' do
       assert((Pathname(Context.new.project_root) + 'lib').directory?)
     end
-
-    tsst 'config' do
-      # assert_not_nil Context.new.config(:test)
-    end
   end
 end
